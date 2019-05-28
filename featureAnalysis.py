@@ -1,7 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[6]:
 
 
 import matplotlib.pyplot as plt
@@ -9,9 +5,6 @@ from mpl_toolkits.mplot3d import Axes3D
 import numpy as np 
 import pandas as pd
 from sklearn.decomposition import PCA
-
-
-# In[2]:
 
 
 def PCAanalysis_2D(train_data, outcome):
@@ -50,9 +43,6 @@ def PCAanalysis_2D(train_data, outcome):
     print('Explained variance by component:', pca.explained_variance_ratio_)
 
 
-# In[10]:
-
-
 def PCAanalysis_3D(train_data, outcome):
     
     train_data_nonconst = train_data.loc[:, (train_data!= train_data.iloc[0]).any()]    
@@ -67,12 +57,12 @@ def PCAanalysis_3D(train_data, outcome):
     plt.clf()
     ax = Axes3D(fig, rect=[0, 0, .95, 1], elev=48, azim=134)
     
-    #for name in ['recurrence', 'no recurrence']:
-        #ax.text3D(principalComponents[train_labels == name, 0].mean(), 
-                  #principalComponents[train_labels == name, 1].mean(), 
-                  #principalComponents[train_labels == name, 2].mean(), 
-                  #name,  horizontalalignment='center',
-            #bbox=dict(alpha=.5, edgecolor='w', facecolor='w'))
+    for name in ['recurrence', 'no recurrence']:
+        ax.text3D(principalComponents[train_labels == name, 0].mean(), 
+                  principalComponents[train_labels == name, 1].mean(), 
+                  principalComponents[train_labels == name, 2].mean(), 
+                  name,  horizontalalignment='center',
+            bbox=dict(alpha=.5, edgecolor='w', facecolor='w'))
         
     new_y = [1 if y == 'recurrence' else 0 for y in train_labels]
     new_y = np.choose(new_y, [0, 1]).astype(np.float)
@@ -83,9 +73,6 @@ def PCAanalysis_3D(train_data, outcome):
     ax.w_zaxis.set_ticklabels([])
 
     print('Explained variance by component:', pca.explained_variance_ratio_)
-
-
-# In[5]:
 
 
 def PCAanalysis(train_data, outcome, num_pc):
@@ -102,14 +89,6 @@ def PCAanalysis(train_data, outcome, num_pc):
     print('Sample scores:', scores)
     print('Explained variance by component:', pca.explained_variance_ratio_)
 
-
-# In[11]:
-
-
-get_ipython().system('ipython nbconvert featureSelection.ipynb --to script')
-
-
-# In[ ]:
 
 
 
