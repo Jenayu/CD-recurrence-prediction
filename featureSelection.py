@@ -1,16 +1,9 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[29]:
 
 
 from sklearn.feature_selection import chi2
 from sklearn.feature_selection import SelectKBest
 from sklearn.feature_selection import RFE
 from sklearn.svm import SVR
-
-
-# In[30]:
 
 
 # feature selection (kbest)
@@ -29,9 +22,6 @@ def featureSel_kbest(train_data, num_features):
     selected_feature_names_kbest = train_feature_names[selector.get_support()]
 
     return list(selected_feature_names_kbest)
-
-
-# In[31]:
 
 
 # feature selection (rfe)
@@ -54,9 +44,6 @@ def featureSel_rfe(train_data, num_features):
     return list(selected_feature_names_rfe)
 
 
-# In[32]:
-
-
 # feature selection (rfecv)
 
 def featureSel_rfecv(train_data, num_folds):
@@ -75,15 +62,6 @@ def featureSel_rfecv(train_data, num_folds):
     selected_feature_names_rfecv = train_feature_names[selector.support_]
     
     return list(selected_feature_names_rfecv)
-
-
-# In[1]:
-
-
-get_ipython().system('ipython nbconvert featureSelection.ipynb --to script')
-
-
-# In[ ]:
 
 
 
