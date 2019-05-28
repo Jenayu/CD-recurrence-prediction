@@ -1,14 +1,9 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[2]:
-
 
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
-
-
-# In[3]:
 
 
 def train_model_svc(train_data, test_data, selected_features):
@@ -33,9 +28,6 @@ def train_model_svc(train_data, test_data, selected_features):
     print("accuracy =", accuracy)
 
 
-# In[4]:
-
-
 def train_model_logistic(train_data, test_data, selected_features):
 
     train_features = train_data[selected_features]
@@ -57,14 +49,6 @@ def train_model_logistic(train_data, test_data, selected_features):
     print(predicted_labels, test_labels)
     print("accuracy =", accuracy)
 
-
-# In[1]:
-
-
-get_ipython().system('ipython nbconvert featureSelection.ipynb --to script')
-
-
-# In[ ]:
 
 
 
