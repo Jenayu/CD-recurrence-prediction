@@ -10,7 +10,7 @@ from sklearn.decomposition import PCA
 def PCAanalysis_2D(train_data, outcome):
     
     train_data_nonconst = train_data.loc[:, (train_data!= train_data.iloc[0]).any()]    
-    train_features = train_data_nonconst.drop(columns=['Patient','Recurrence'],axis=1)
+    train_features = train_data_nonconst.drop(columns=['Recurrence'],axis=1)
     train_feature_names = train_features.columns
     
     pca = PCA().fit(train_features)
@@ -24,7 +24,8 @@ def PCAanalysis_2D(train_data, outcome):
     pca = PCA(n_components=2)
     principalComponents = pca.fit_transform(train_features)
     principalDf = pd.DataFrame(data = principalComponents, columns = ['principal component 1', 'principal component 2'])
-    finalDf = pd.concat([principalDf, train_data[[outcome]]], axis = 1)
+    train_data = train_data.reset_index()
+    finalDf = pd.merge(principalDf, train_data[[outcome]], left_index=True, right_index=True)
     
     fig = plt.figure(figsize = (5,5))
     ax = fig.add_subplot(1,1,1) 
@@ -32,8 +33,7 @@ def PCAanalysis_2D(train_data, outcome):
     ax.set_ylabel('Principal Component 2', fontsize = 15)
     ax.set_title('2 component PCA', fontsize = 20)
     targets = set(train_data[outcome])
-    colors_list = ['r', 'g','b']
-    colors = colors_list[:len(targets)]
+    colors = ['r', 'g']
     for target, color in zip(targets,colors):
         indicesToKeep = finalDf[outcome] == target
         ax.scatter(finalDf.loc[indicesToKeep, 'principal component 1'], finalDf.loc[indicesToKeep, 'principal component 2'], c = color, s = 50)
@@ -46,7 +46,7 @@ def PCAanalysis_2D(train_data, outcome):
 def PCAanalysis_3D(train_data, outcome):
     
     train_data_nonconst = train_data.loc[:, (train_data!= train_data.iloc[0]).any()]    
-    train_features = train_data_nonconst.drop(columns=['Patient','Recurrence'],axis=1)
+    train_features = train_data_nonconst.drop(columns=['Recurrence'],axis=1)
     train_feature_names = train_features.columns
     train_labels = train_data_nonconst['Recurrence']
     
@@ -57,12 +57,12 @@ def PCAanalysis_3D(train_data, outcome):
     plt.clf()
     ax = Axes3D(fig, rect=[0, 0, .95, 1], elev=48, azim=134)
     
-    for name in ['recurrence', 'no recurrence']:
-        ax.text3D(principalComponents[train_labels == name, 0].mean(), 
-                  principalComponents[train_labels == name, 1].mean(), 
-                  principalComponents[train_labels == name, 2].mean(), 
-                  name,  horizontalalignment='center',
-            bbox=dict(alpha=.5, edgecolor='w', facecolor='w'))
+    #for name in ['recurrence', 'no recurrence']:
+        #ax.text3D(principalComponents[train_labels == name, 0].mean(), 
+                  #principalComponents[train_labels == name, 1].mean(), 
+                  #principalComponents[train_labels == name, 2].mean(), 
+                  #name,  horizontalalignment='center',
+            #bbox=dict(alpha=.5, edgecolor='w', facecolor='w'))
         
     new_y = [1 if y == 'recurrence' else 0 for y in train_labels]
     new_y = np.choose(new_y, [0, 1]).astype(np.float)
