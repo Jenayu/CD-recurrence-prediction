@@ -37,7 +37,7 @@ mergeTaxaNormOtuCounts <- function(physeq){
 ### STEP 1 ####
 # Read in the rds file
 # make sure your working directory is pointing to the correct folder!
-WashU.UNC.data <- readRDS("~/course documents/fall 2019/Terry's/r scripts/WashU_UNC_CD_NI_ileum_data.rds")
+WashU.UNC.data <- readRDS("~/WashU_UNC_CD_NI_ileum_data.rds")
 
 ### STEP 1.5 ####
 # Separate the dataset to UNC patients and WashU patients
@@ -91,6 +91,6 @@ patient.species.data.scaled <- apply(data.species.table.4, 1, rescale)
 #### STEP 9 #### 
 # Save your work!
 
-write.csv(patient.species.data.scaled,"~/course documents/fall 2019/Terry's/normalized data/UNC_WashU_CD_NI_ileum_species_scaled.csv")
+write.csv(patient.species.data.scaled,"~/UNC_WashU_CD_NI_ileum_species_scaled.csv")
 
 ##### Now do the same for the genus, family, etc phyloseq objects #####
