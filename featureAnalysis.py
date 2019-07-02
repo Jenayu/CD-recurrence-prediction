@@ -1,18 +1,21 @@
 
 
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 import numpy as np 
 import pandas as pd
+from mpl_toolkits.mplot3d import Axes3D
 from sklearn.decomposition import PCA
 
 
 def PCAanalysis_2D(train_data, outcome):
     
-    train_data_nonconst = train_data.loc[:, (train_data!= train_data.iloc[0]).any()]    
+    # remove the constant features
+    train_data_nonconst = train_data.loc[:, (train_data!= train_data.iloc[0]).any()]  
     train_features = train_data_nonconst.drop(columns=['Recurrence'],axis=1)
     train_feature_names = train_features.columns
     
+    # plot number of components vs. percentage explained variance
+    # to determine the best number of principal components
     pca = PCA().fit(train_features)
     plt.figure()
     plt.plot(np.cumsum(pca.explained_variance_ratio_))
@@ -21,6 +24,7 @@ def PCAanalysis_2D(train_data, outcome):
     plt.title('Number of components vs. Explained Variance')
     plt.show()
     
+    # PCA(n=2) of the input data
     pca = PCA(n_components=2)
     principalComponents = pca.fit_transform(train_features)
     principalDf = pd.DataFrame(data = principalComponents, columns = ['principal component 1', 'principal component 2'])
@@ -45,24 +49,19 @@ def PCAanalysis_2D(train_data, outcome):
 
 def PCAanalysis_3D(train_data, outcome):
     
+    # remove the constant features
     train_data_nonconst = train_data.loc[:, (train_data!= train_data.iloc[0]).any()]    
     train_features = train_data_nonconst.drop(columns=['Recurrence'],axis=1)
     train_feature_names = train_features.columns
     train_labels = train_data_nonconst['Recurrence']
     
+    # PCA(n=3) of the input data
     pca = PCA(n_components=3)
     principalComponents = pca.fit_transform(train_features)
     
     fig = plt.figure(1, figsize=(5, 4))
     plt.clf()
     ax = Axes3D(fig, rect=[0, 0, .95, 1], elev=48, azim=134)
-    
-    #for name in ['recurrence', 'no recurrence']:
-        #ax.text3D(principalComponents[train_labels == name, 0].mean(), 
-                  #principalComponents[train_labels == name, 1].mean(), 
-                  #principalComponents[train_labels == name, 2].mean(), 
-                  #name,  horizontalalignment='center',
-            #bbox=dict(alpha=.5, edgecolor='w', facecolor='w'))
         
     new_y = [1 if y == 'recurrence' else 0 for y in train_labels]
     new_y = np.choose(new_y, [0, 1]).astype(np.float)
@@ -77,10 +76,12 @@ def PCAanalysis_3D(train_data, outcome):
 
 def PCAanalysis(train_data, outcome, num_pc):
     
+    # remove the constant features
     train_data_nonconst = train_data.loc[:, (train_data!= train_data.iloc[0]).any()]    
     train_features = train_data_nonconst.drop(columns=['Patient','Recurrence'],axis=1)
     train_feature_names = train_features.columns
     
+     # PCA(n=num_pc) of the input data
     pca = PCA(n_components=num_pc)
     principalComponents = pca.fit_transform(train_features)
 
