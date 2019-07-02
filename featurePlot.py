@@ -1,15 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# In[ ]:
-
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
-
-# In[ ]:
 
 
 def plot_feature_recurrence(data, features):
@@ -46,9 +37,6 @@ def plot_feature_recurrence(data, features):
     plt.legend(df, loc='upper left')
     plt.grid()
     plt.show()
-
-
-# In[ ]:
 
 
 def plot_feature_norecurrence(data, features):
@@ -94,9 +82,4 @@ def plot_feature_norecurrence(data, features):
     plt.grid()
     plt.show()
 
-
-# In[ ]:
-
-
-get_ipython().system('ipython nbconvert featurePlot.ipynb --to script')
 
